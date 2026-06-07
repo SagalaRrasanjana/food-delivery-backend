@@ -3,16 +3,41 @@ target/
 *.class
 *.jar
 *.war
+*.ear
+*.nar
+*.log
 .mvn/wrapper/maven-wrapper.jar
+
+### Spring Boot ###
+HELP.md
 
 ### VS Code & IDEs ###
 .vscode/
 .idea/
 *.iml
+*.iws
 .classpath
 .project
 .settings/
+.factorypath
+.springBeans
 
 ### OS Files ###
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+
+### Logs ###
+*.log
+logs/
+
+### Security & Environment Variables ###
+.env
+.env.*
+*.env
+application-secret.properties
+application-dev.properties
