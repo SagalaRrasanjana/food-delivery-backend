@@ -2,6 +2,8 @@ package com.fooddelivery.restaurant_service.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,5 +49,6 @@ public class MenuItem {
     // This creates the relationship back to the Restaurant table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonIgnore //  prevents the JSON parsing crash!
     private Restaurant restaurant;
 }

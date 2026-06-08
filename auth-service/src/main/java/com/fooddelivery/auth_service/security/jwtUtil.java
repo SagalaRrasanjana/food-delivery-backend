@@ -4,20 +4,31 @@ import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Value; 
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class jwtUtil {
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // 1. Inject the secret string from application.properties
+    @Value("${jwt.secret}")
+    private String secret;
+    
+    private Key key;
     private final long EXPIRATION_TIME = 86400000; // 24 hours
 
-    // Generate Token (Already had this)
+    // 2. This method builds the cryptographic Key object as soon as the app boots up
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
+    // Generate Token
     public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
@@ -28,12 +39,12 @@ public class jwtUtil {
                 .compact();
     }
 
-    // NEW: Extract the user's email (subject) from the token
+    // Extract the user's email (subject) from the token
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // NEW: Check if the token is valid
+    // Check if the token is valid
     public boolean isTokenValid(String token, String userEmail) {
         final String tokenEmail = extractEmail(token);
         return (tokenEmail.equals(userEmail) && !isTokenExpired(token));
