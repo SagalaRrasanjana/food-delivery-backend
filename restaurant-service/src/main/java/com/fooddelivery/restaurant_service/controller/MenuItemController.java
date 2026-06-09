@@ -32,4 +32,5 @@ public class MenuItemController {
     public ResponseEntity<List<MenuItem>> getMenuByRestaurant(@PathVariable Long restaurantId) {
         return ResponseEntity.ok(menuItemService.getMenuByRestaurant(restaurantId));
     }
+    
 }
