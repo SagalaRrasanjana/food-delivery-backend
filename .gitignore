@@ -10,6 +10,7 @@ target/
 
 ### Spring Boot ###
 HELP.md
+memory.md
 
 ### VS Code & IDEs ###
 .vscode/
