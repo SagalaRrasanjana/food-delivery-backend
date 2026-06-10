@@ -26,3 +26,9 @@ spring:
               uri: http://localhost:8081
               predicates:
                 - Path=/api/restaurants, /api/restaurants/**, /api/menu-items, /api/menu-items/**
+
+            # Route 3: Order Service Traffic
+            - id: order-service
+              uri: http://localhost:8082  # 👈 RIGHT HERE! This tells the Gateway where the Order Service is listening
+              predicates:
+                - Path=/api/orders, /api/orders/**
