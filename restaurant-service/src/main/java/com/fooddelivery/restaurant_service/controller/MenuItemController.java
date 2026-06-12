@@ -33,4 +33,9 @@ public class MenuItemController {
         return ResponseEntity.ok(menuItemService.getMenuByRestaurant(restaurantId));
     }
     
+    //  fetch a single item by its ID for the Order Service to use
+    @GetMapping("/{id}")
+    public ResponseEntity<MenuItem> getMenuItemById(@PathVariable Long id) {
+        return ResponseEntity.ok(menuItemService.getMenuItemById(id)); 
+    }
 }
