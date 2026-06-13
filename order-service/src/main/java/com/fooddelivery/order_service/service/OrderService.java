@@ -68,4 +68,16 @@ public class OrderService {
         // Save and return the finalized order
         return orderRepository.save(order);
     }
+
+    public Order updateOrderStatus(Long orderId, String newStatus) {
+        // 1. Find the exact order in the database
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+        
+        // 2. Update the status (converting to uppercase to keep the database clean)
+        order.setStatus(newStatus.toUpperCase());
+        
+        // 3. Save the updated order
+        return orderRepository.save(order);
+    }
 }

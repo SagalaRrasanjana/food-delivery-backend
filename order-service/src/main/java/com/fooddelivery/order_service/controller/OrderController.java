@@ -1,12 +1,14 @@
 package com.fooddelivery.order_service.controller;
 
 import java.util.List;
+import java.util.Map; // 👈 Required for the status body
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping; // 🚨 MAKE SURE TO ADD THIS IMPORT
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping; // 👈 Required for the PUT request
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,19 @@ public class OrderController {
         String userId = authentication.getName(); 
         
         return ResponseEntity.ok(orderService.placeOrder(orderRequest, userId));
+    }
+
+    
+    @PutMapping("/{orderId}/status")
+    public ResponseEntity<Order> updateOrderStatus(
+            @PathVariable Long orderId, 
+            @RequestBody Map<String, String> requestBody) {
+        
+        // Extract the "status" value from the JSON body
+        String newStatus = requestBody.get("status");
+        
+        // Send it to the service to be saved
+        return ResponseEntity.ok(orderService.updateOrderStatus(orderId, newStatus));
     }
 
     @GetMapping("/user/{userId}")
