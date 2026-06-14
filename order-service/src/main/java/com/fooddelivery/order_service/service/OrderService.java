@@ -80,4 +80,8 @@ public class OrderService {
         // 3. Save the updated order
         return orderRepository.save(order);
     }
+        // fetch the history
+    public List<Order> getUserOrders(String userId) {
+        return orderRepository.findByUserIdOrderByOrderTimeDesc(userId);
+    }
 }

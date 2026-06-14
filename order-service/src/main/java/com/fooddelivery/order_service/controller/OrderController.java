@@ -1,14 +1,14 @@
 package com.fooddelivery.order_service.controller;
 
 import java.util.List;
-import java.util.Map; // 👈 Required for the status body
+import java.util.Map; 
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping; // 👈 Required for the PUT request
+import org.springframework.web.bind.annotation.PutMapping; 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +35,6 @@ public class OrderController {
         return ResponseEntity.ok(orderService.placeOrder(orderRequest, userId));
     }
 
-    
     @PutMapping("/{orderId}/status")
     public ResponseEntity<Order> updateOrderStatus(
             @PathVariable Long orderId, 
@@ -48,8 +47,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.updateOrderStatus(orderId, newStatus));
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Order>> getUserOrders(@PathVariable String userId) {
-        return ResponseEntity.ok(List.of()); 
+    // 👇 THIS IS THE NEW SECURE HISTORY ENDPOINT!
+    @GetMapping("/history")
+    public ResponseEntity<List<Order>> getMyOrderHistory(Authentication authentication) {
+        
+        // 1. Securely grab the email from the verified token
+        String userId = authentication.getName(); 
+        
+        // 2. Fetch only their specific orders (sorted newest to oldest by the repository!)
+        return ResponseEntity.ok(orderService.getUserOrders(userId));
     }
 }
