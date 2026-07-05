@@ -1,12 +1,14 @@
 package com.fooddelivery.restaurant_service.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.fooddelivery.restaurant_service.dto.RestaurantRequest;
 import com.fooddelivery.restaurant_service.model.Restaurant;
 import com.fooddelivery.restaurant_service.repository.RestaurantRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +29,10 @@ public class RestaurantService {
 
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
+    }
+
+    public Restaurant getRestaurantById(Long id) {
+        return restaurantRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurant not found with id: " + id));
     }
 }
