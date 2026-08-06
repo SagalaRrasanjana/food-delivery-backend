@@ -21,7 +21,9 @@ public class RestaurantService {
                 .name(request.getName())
                 .address(request.getAddress())
                 .ownerId(request.getOwnerId())
-                .isOpen(true) // Default to open when created
+                .bannerUrl(request.getBannerUrl())
+                .tags(request.getTags())
+                .isOpen(request.isOpen()) 
                 .build();
 
         return restaurantRepository.save(restaurant);

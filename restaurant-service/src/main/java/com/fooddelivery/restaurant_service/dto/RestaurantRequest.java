@@ -6,5 +6,8 @@ import lombok.Data;
 public class RestaurantRequest {
     private String name;
     private String address;
-    private Long ownerId; //  pass this manually - until link the Auth token
+    private Long ownerId; 
+    private String bannerUrl;
+    private String tags;
+    private boolean isOpen;
 }

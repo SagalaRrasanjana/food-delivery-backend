@@ -15,7 +15,7 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         
-        // Tell Spring Boot to explicitly trust your Vite React port!
+        // Tell Spring Boot to  trust  Vite React port
         corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         
         // Allow all standard web request methods

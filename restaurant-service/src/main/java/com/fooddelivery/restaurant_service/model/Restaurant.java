@@ -35,13 +35,17 @@ public class Restaurant {
     @Column(nullable = false)
     private String address;
 
-    // We store the owner's ID from the Auth Service here!
+    
     @Column(nullable = false)
     private Long ownerId; 
 
     @Column(nullable = false)
     private boolean isOpen;
 
+    private String bannerUrl;
+    
+    private String tags;
+    
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
