@@ -42,7 +42,11 @@ public class OrderController {
         
         // Extract the "status" value from the JSON body
         String newStatus = requestBody.get("status");
-        
+
+        if (newStatus == null || newStatus.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         // Send it to the service to be saved
         return ResponseEntity.ok(orderService.updateOrderStatus(orderId, newStatus));
     }

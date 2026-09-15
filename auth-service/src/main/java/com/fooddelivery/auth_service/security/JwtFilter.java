@@ -26,8 +26,6 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
 
         // 1. Check if the Authorization header contains a Bearer token
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -35,25 +33,32 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 2. Extract token and email
-        jwt = authHeader.substring(7);
-        userEmail = jwtUtil.extractEmail(jwt);
+        // 2. Extract token
+        final String jwt = authHeader.substring(7);
 
-        // 3. If email is valid and user is not yet authenticated in this session
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            
-            // 4. Validate the token
-            if (jwtUtil.isTokenValid(jwt, userEmail)) {
-                
-                // 5. Tell Spring Security that this user is safely authenticated
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userEmail, null, new ArrayList<>() // We can add roles here later
-                );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            // 3. Extract email
+            final String userEmail = jwtUtil.extractEmail(jwt);
+
+            // 4. If email is valid and user is not yet authenticated in this session
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                // 5. Validate the token
+                if (jwtUtil.isTokenValid(jwt, userEmail)) {
+
+                    // 6. Tell Spring Security that this user is safely authenticated
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userEmail, null, new ArrayList<>() // We can add roles here later
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (Exception e) {
+            // Token is invalid or expired, do nothing and let SecurityConfig block them
+            System.out.println("Invalid JWT Token: " + e.getMessage());
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }
