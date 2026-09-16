@@ -3,8 +3,9 @@ package com.fooddelivery.restaurant_service.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+// Owner-editable fields only - ownerId is immutable after creation, not client-settable
 @Data
-public class RestaurantRequest {
+public class RestaurantUpdateRequest {
 
     @NotBlank(message = "name is required")
     private String name;
@@ -12,9 +13,6 @@ public class RestaurantRequest {
     @NotBlank(message = "address is required")
     private String address;
 
-    // ownerId is intentionally NOT a client-supplied field anymore - it is derived
-    // from the authenticated caller's JWT (see RestaurantController/RestaurantService)
-    // so a caller can no longer create a restaurant "owned" by someone else.
     private String bannerUrl;
     private String tags;
     private boolean isOpen;

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class MenuItemRequest {
+public class MenuItemUpdateRequest {
 
     @NotBlank(message = "name is required")
     private String name;
@@ -23,8 +23,4 @@ public class MenuItemRequest {
     private String menuCategory;
 
     private String imageUrl;
-
-    //  identify which restaurant food belongs
-    @NotNull(message = "restaurantId is required")
-    private Long restaurantId;
 }

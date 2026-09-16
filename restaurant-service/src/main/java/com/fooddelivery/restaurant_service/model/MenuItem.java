@@ -46,6 +46,8 @@ public class MenuItem {
     @Column(nullable = false)
     private boolean isAvailable;
 
+    private String imageUrl;
+
     // This creates the relationship back to the Restaurant table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)

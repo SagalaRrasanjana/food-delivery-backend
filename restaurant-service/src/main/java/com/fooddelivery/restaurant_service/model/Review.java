@@ -17,42 +17,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "restaurants")
+@Table(name = "reviews")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Restaurant {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private Long restaurantId;
+
+    // Email pulled from the JWT subject, same identity convention used across services
+    @Column(nullable = false)
+    private String userEmail;
 
     @Column(nullable = false)
-    private String address;
+    private Integer rating; // 1-5
 
-    
-    @Column(nullable = false)
-    private Long ownerId; 
-
-    @Column(nullable = false)
-    private boolean isOpen;
-
-    private String bannerUrl;
-
-    private String tags;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private Double averageRating = 0.0;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private Integer ratingCount = 0;
+    private String comment;
 
     @CreationTimestamp
     @Column(updatable = false)

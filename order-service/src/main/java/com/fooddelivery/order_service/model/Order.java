@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +36,16 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<OrderItem> items;
 
+    private Double subtotal;
+    private Double deliveryFee;
     private Double totalAmount;
-    private String status;       // PENDING, CONFIRMED, PREPARING, DELIVERED
-    
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
+
+    private String deliveryAddress;
+    private String deliveryNotes;
+
     private LocalDateTime orderTime;
 }
